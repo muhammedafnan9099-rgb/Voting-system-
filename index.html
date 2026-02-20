@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Online Voting System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+
+        .candidate {
+            background: #ffffff;
+            width: 300px;
+            margin: 15px auto;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 6px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        #message {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Simple Online Voting System</h1>
+
+    <div class="candidate">
+        <p>Candidate A</p>
+        <button onclick="vote(0)">Vote</button>
+        <p id="count0">Votes: 0</p>
+    </div>
+
+    <div class="candidate">
+        <p>Candidate B</p>
+        <button onclick="vote(1)">Vote</button>
+        <p id="count1">Votes: 0</p>
+    </div>
+
+    <div class="candidate">
+        <p>Candidate C</p>
+        <button onclick="vote(2)">Vote</button>
+        <p id="count2">Votes: 0</p>
+    </div>
+
+    <p id="message"></p>
+
+    <script>
+        // Array to store votes of multiple candidates
+        let votes = [0, 0, 0];
+
+        // Variable to prevent multiple voting
+        let hasVoted = false;
+
+        function vote(candidateIndex) {
+
+            if (hasVoted) {
+                document.getElementById("message").innerText =
+                    "You have already voted!";
+                return;
+            }
+
+            // Increase vote count
+            votes[candidateIndex]++;
+
+            // Update vote count dynamically
+            document.getElementById("count" + candidateIndex).innerText =
+                "Votes: " + votes[candidateIndex];
+
+            // Mark as voted
+            hasVoted = true;
+
+            document.getElementById("message").innerText =
+                "Thank you for voting!";
+        }
+    </script>
+
+</body>
+</html>
