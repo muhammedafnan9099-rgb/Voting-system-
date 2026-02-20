@@ -1,0 +1,73 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #4e73df, #1cc88a);
+    text-align: center;
+    padding: 40px;
+}
+
+/* Main Heading */
+h1 {
+    color: #ffffff;
+    margin-bottom: 30px;
+}
+
+/* Candidate Card */
+.candidate {
+    background: #ffffff;
+    width: 320px;
+    margin: 15px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease;
+}
+
+.candidate:hover {
+    transform: scale(1.03);
+}
+
+/* Candidate Name */
+.candidate p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Vote Button */
+button {
+    background-color: #4e73df;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #2e59d9;
+}
+
+/* Vote Count Text */
+[id^="count"] {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Message Section */
+#message {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: yellow;
+}
