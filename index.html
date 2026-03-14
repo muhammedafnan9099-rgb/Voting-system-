@@ -7,6 +7,7 @@
 
     <style>
         body {
+            <h3>Time Remaining: <span id="timer">03:00</span></h3>
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
             text-align: center;
@@ -84,6 +85,34 @@
 
             document.getElementById("message").innerText =
                 "Thank you for voting!";
+            // 3 minutes = 180 seconds
+let timeLeft = 180;
+
+let timer = document.getElementById("timer");
+let voteButton = document.getElementById("voteBtn");
+
+let countdown = setInterval(function () {
+
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    timer.textContent = minutes + ":" + seconds;
+
+    timeLeft--;
+
+    if (timeLeft < 0) {
+        clearInterval(countdown);
+        timer.textContent = "Time Over!";
+        voteButton.disabled = true;
+        alert("Voting time is over!");
+    }
+
+}, 1000);
+            function vote(candidate) {
+    alert("You voted for " + candidate);
+}
         }
     </script>
 
