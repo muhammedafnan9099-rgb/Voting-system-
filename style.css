@@ -1,11 +1,11 @@
-/* Reset some default styles */
+/* Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body Styling */
+/* Body */
 body {
     font-family: Arial, sans-serif;
     background: linear-gradient(to right, #4e73df, #1cc88a);
@@ -13,10 +13,10 @@ body {
     padding: 40px;
 }
 
-/* Main Heading */
+/* Heading */
 h1 {
     color: #ffffff;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 /* Candidate Card */
@@ -25,13 +25,13 @@ h1 {
     width: 320px;
     margin: 15px auto;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
     transition: transform 0.2s ease;
 }
 
 .candidate:hover {
-    transform: scale(1.03);
+    transform: scale(1.04);
 }
 
 /* Candidate Name */
@@ -40,126 +40,62 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* Vote Button */
+/* Buttons */
 button {
     background-color: #4e73df;
     color: white;
     border: none;
     padding: 8px 18px;
-    border-radius: 5px;
+    margin: 5px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 14px;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 button:hover {
     background-color: #2e59d9;
+    transform: scale(1.05);
 }
 
-/* Vote Count Text */
+button:active {
+    transform: scale(0.95);
+}
+
+/* Progress Bar */
+.bar {
+    height: 10px;
+    background: linear-gradient(to right, #1cc88a, #17a673);
+    margin-top: 8px;
+    width: 0%;
+    border-radius: 10px;
+    transition: width 0.5s ease-in-out;
+}
+
+/* Vote Count */
 [id^="count"] {
     display: block;
-    margin-top: 10px;
+    margin-top: 8px;
     font-weight: bold;
     color: #333;
 }
 
-/* Message Section */
+/* Message */
 #message {
     margin-top: 20px;
     font-size: 16px;
     font-weight: bold;
     color: yellow;
 }
-   </style>
-</head>
 
-<body>
+/* Action Buttons (Winner + Reset) */
+button:nth-of-type(4),
+button:nth-of-type(5) {
+    margin-top: 20px;
+    background-color: #1cc88a;
+}
 
-<h1>Simple Online Voting System</h1>
-
-<h3>Time Remaining: <span id="timer">02:00</span></h3>
-
-<div class="candidate">
-    <p>Candidate A</p>
-    <button onclick="vote(0)" class="voteBtn">Vote</button>
-    <span id="count0">Votes: 0</span>
-</div>
-
-<div class="candidate">
-    <p>Candidate B</p>
-    <button onclick="vote(1)" class="voteBtn">Vote</button>
-    <span id="count1">Votes: 0</span>
-</div>
-
-<div class="candidate">
-    <p>Candidate C</p>
-    <button onclick="vote(2)" class="voteBtn">Vote</button>
-    <span id="count2">Votes: 0</span>
-</div>
-
-<p id="message"></p>
-
-<script>
-    let votes = [0, 0, 0];
-    let hasVoted = false;
-
-    // 2 minutes = 120 seconds
-    let timeLeft = 120;
-    let timer = document.getElementById("timer");
-
-    let countdown = setInterval(function () {
-
-        let minutes = Math.floor(timeLeft / 60);
-        let seconds = timeLeft % 60;
-
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        timer.textContent = minutes + ":" + seconds;
-
-        timeLeft--;
-
-        if (timeLeft < 0) {
-            clearInterval(countdown);
-            timer.textContent = "Time Over!";
-            timer.classList.add("time-up");
-
-            // Disable all buttons
-            let buttons = document.getElementsByClassName("voteBtn");
-            for (let i = 0; i < buttons.length; i++) {
-                buttons[i].disabled = true;
-            }
-
-            document.getElementById("message").innerText =
-                "Voting time is over!";
-        }
-
-    }, 1000);
-
-    function vote(candidateIndex) {
-
-        if (timeLeft < 0) {
-            alert("Voting time is over!");
-            return;
-        }
-
-        if (hasVoted) {
-            document.getElementById("message").innerText =
-                "You have already voted!";
-            return;
-        }
-
-        votes[candidateIndex]++;
-
-        document.getElementById("count" + candidateIndex).innerText =
-            "Votes: " + votes[candidateIndex];
-
-        hasVoted = true;
-
-        document.getElementById("message").innerText =
-            "Thank you for voting!";
-    }
-</script>
-
-</body>
-</html>
+button:nth-of-type(4):hover,
+button:nth-of-type(5):hover {
+    background-color: #17a673;
+}
