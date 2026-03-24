@@ -1,121 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css">
-    <meta charset="UTF-8">
-    <title>Simple Online Voting System</title>
+<meta charset="UTF-8">
+<title>Online Voting System</title>
 
-    <style>
-        body {
-            
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        .candidate {
-            background: #ffffff;
-            width: 300px;
-            margin: 15px auto;
-            padding: 15px;
-            border-radius: 8px;
-        }
+body {
+    font-family: Arial;
+    background: linear-gradient(to right, #4e73df, #1cc88a);
+    text-align: center;
+    padding: 40px;
+}
 
-        button {
-            padding: 6px 15px;
-            margin: 5px;
-            cursor: pointer;
-        }
+h1 {
+    color: white;
+    margin-bottom: 20px;
+}
 
-        #message {
-            color: green;
-            font-weight: bold;
-            <h3>Time Remaining: <span id="timer">03:00</span></h3>
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            text-align: center;
-        }
-    </style>
+.candidate {
+    background: white;
+    width: 320px;
+    margin: 15px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+button {
+    padding: 8px 15px;
+    margin: 5px;
+    border: none;
+    background: #4e73df;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #2e59d9;
+}
+
+.bar {
+    height: 10px;
+    background: green;
+    margin-top: 5px;
+    width: 0%;
+}
+
+#message {
+    margin-top: 20px;
+    color: yellow;
+    font-weight: bold;
+}
+</style>
 </head>
 
 <body>
 
-    <h1>Simple Online Voting System</h1>
+<h1>Online Voting System</h1>
 
-    <div class="candidate">
-        <p>Candidate A</p>
-        <button onclick="vote(0)">Vote</button>
-        <p id="count0">Votes: 0</p>
-    </div>
+<div class="candidate">
+    <p>Candidate A</p>
+    <button onclick="vote(0)">Vote</button>
+    <p id="count0">Votes: 0</p>
+    <div class="bar" id="bar0"></div>
+</div>
 
-    <div class="candidate">
-        <p>Candidate B</p>
-        <button onclick="vote(1)">Vote</button>
-        <p id="count1">Votes: 0</p>
-    </div>
+<div class="candidate">
+    <p>Candidate B</p>
+    <button onclick="vote(1)">Vote</button>
+    <p id="count1">Votes: 0</p>
+    <div class="bar" id="bar1"></div>
+</div>
 
-    <div class="candidate">
-        <p>Candidate C</p>
-        <button onclick="vote(2)">Vote</button>
-        <p id="count2">Votes: 0</p>
-    </div>
+<div class="candidate">
+    <p>Candidate C</p>
+    <button onclick="vote(2)">Vote</button>
+    <p id="count2">Votes: 0</p>
+    <div class="bar" id="bar2"></div>
+</div>
 
-    <p id="message"></p>
+<br>
 
-    <script>
-        // Array to store votes of multiple candidates
-        let votes = [0, 0, 0];
+<button onclick="showWinner()">Show Winner</button>
+<button onclick="resetVotes()">Reset</button>
 
-        // Variable to prevent multiple voting
-        let hasVoted = false;
+<p id="message"></p>
 
-        function vote(candidateIndex) {
+<script>
 
-            if (hasVoted) {
-                document.getElementById("message").innerText =
-                    "You have already voted!";
-                return;
-            }
+let votes = JSON.parse(localStorage.getItem("votes")) || [0,0,0];
+let hasVoted = false;
 
-            // Increase vote count
-            votes[candidateIndex]++;
+// Load previous votes
+updateUI();
 
-            // Update vote count dynamically
-            document.getElementById("count" + candidateIndex).innerText =
-                "Votes: " + votes[candidateIndex];
+function vote(index) {
 
-            // Mark as voted
-            hasVoted = true;
-
-            document.getElementById("message").innerText =
-                "Thank you for voting!";
-            // 3 minutes = 180 seconds
-let timeLeft = 180;
-
-let timer = document.getElementById("timer");
-let voteButton = document.getElementById("voteBtn");
-
-let countdown = setInterval(function () {
-
-    let minutes = Math.floor(timeLeft / 60);
-    let seconds = timeLeft % 60;
-
-    seconds = seconds < 10 ? "0" + seconds : seconds;
-
-    timer.textContent = minutes + ":" + seconds;
-
-    timeLeft--;
-
-    if (timeLeft < 0) {
-        clearInterval(countdown);
-        timer.textContent = "Time Over!";
-        voteButton.disabled = true;
-        alert("Voting time is over!");
+    if (hasVoted) {
+        document.getElementById("message").innerText = "You already voted!";
+        return;
     }
 
-}, 1000);
-            function vote(candidate) {
-    alert("You voted for " + candidate);
+    votes[index]++;
+    hasVoted = true;
+
+    localStorage.setItem("votes", JSON.stringify(votes));
+
+    updateUI();
+
+    document.getElementById("message").innerText = "Thank you for voting!";
 }
-        }
-    </script>
+
+function updateUI() {
+
+    let total = votes.reduce((a,b) => a+b, 0);
+
+    for (let i=0; i<votes.length; i++) {
+        document.getElementById("count"+i).innerText = "Votes: " + votes[i];
+
+        let percent = total ? (votes[i]/total)*100 : 0;
+        document.getElementById("bar"+i).style.width = percent + "%";
+    }
+}
+
+function showWinner() {
+    let max = Math.max(...votes);
+    let index = votes.indexOf(max);
+    let names = ["Candidate A","Candidate B","Candidate C"];
+
+    document.getElementById("message").innerText =
+        "🏆 Winner: " + names[index];
+}
+
+function resetVotes() {
+    votes = [0,0,0];
+    hasVoted = false;
+    localStorage.removeItem("votes");
+
+    updateUI();
+
+    document.getElementById("message").innerText = "Voting reset!";
+}
+
+</script>
 
 </body>
 </html>
